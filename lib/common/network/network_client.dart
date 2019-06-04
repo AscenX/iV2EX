@@ -17,7 +17,7 @@ class NetWorkClient {
   NetWorkClient._internal() {
     if (_dio == null) {
         BaseOptions options = BaseOptions();
-        options.baseUrl = kAPIBaseURL;
+        options.baseUrl = kBaseURL;
         options.receiveTimeout = 1000 * 10; //10秒
         options.connectTimeout = 1000 * 10;
         _dio = Dio(options);
@@ -32,7 +32,7 @@ class NetWorkClient {
 
   Stream _get({String path, Map<String, dynamic> param}) async* {
     try {
-      print('HTTP get,path:$kAPIBaseURL$path param:$param');
+      print('HTTP get,path:$kBaseURL$path param:$param');
       if (param != null) {
         yield await _dio.get(path, queryParameters: param);
       } else {

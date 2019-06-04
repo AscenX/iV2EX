@@ -1,4 +1,4 @@
-const String kAPIBaseURL = 'https://www.v2ex.com';
+const String kBaseURL = 'https://www.v2ex.com';
 
 /// 最新主题
 const String kAPILatestTopcis = '/api/topics/latest.json';

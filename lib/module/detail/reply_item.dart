@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './reply_item_view_model.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class ReplyItem extends StatelessWidget {
   final ReplyItemViewModel _vm;
@@ -36,7 +37,10 @@ class ReplyItem extends StatelessWidget {
               Text(_vm.timeNsource)
             ],
           ),
-          Text(_vm.content)
+          Container(
+              padding: EdgeInsets.only(right: 10),
+              child: MarkdownBody(data: _vm.content),
+          ),
         ],
       ),
     );
