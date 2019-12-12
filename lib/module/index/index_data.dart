@@ -1,4 +1,4 @@
-import './topics.dart';
+import './topic.dart';
 
 /// 解析V2EX首页的html获取数据
 class IndexData {
@@ -7,14 +7,14 @@ class IndexData {
   final String onlineCount;
   final String highestOnline;
   final List<Map<String, List>> nodes;
-  final List<Topics> topicses;
+  final List<Topic> topics;
   final String unreadNotification;
   final String nodeCollectionCount;
   final String topicsCollection;
   final String specialFollow;
   final List<Map> collectedNodes;
 
-  IndexData(this.nodes, this.tabs, this.tabNodes, this.onlineCount, this.highestOnline, this.topicses, this.unreadNotification,
+  IndexData(this.nodes, this.tabs, this.tabNodes, this.onlineCount, this.highestOnline, this.topics, this.unreadNotification,
   this.nodeCollectionCount, this.topicsCollection, this.specialFollow, this.collectedNodes);
 
   factory IndexData.fromHTML(String html) {
@@ -23,6 +23,7 @@ class IndexData {
       String tabStr = reg.stringMatch(html);
       RegExp tabReg = RegExp(r'href=".+?(?:<)');
       var hot;
+
       List<Map<String, String>> tabs = tabReg.allMatches(tabStr).map((m){
         String tabStr = m.group(0);
         String unuseStr = 'class';
@@ -80,17 +81,20 @@ class IndexData {
 
       // 匹配帖子
       RegExp topicsReg = RegExp(r'^<div class="cell item"[\s\S.]+?strong></span>$', multiLine: true);
-      List topicses = topicsReg.allMatches(html).map((m){
+      List<Topic> topics = topicsReg.allMatches(html).map((m){
         String topicsStr = m.group(0);
+        // 头像url
         String avatarURL = RegExp(r'(src="//).*?"').stringMatch(topicsStr);
         avatarURL = 'https://'+ avatarURL.substring(7,avatarURL.length - 1);
 
         String titleStr = RegExp(r'href=".*</a></span>').stringMatch(topicsStr);
-        titleStr = titleStr.substring(0,titleStr.length - 11);
-        String unuseStr = '">';
+        titleStr = titleStr.substring(0, titleStr.length - 11);
+        String unuseStr = '" class=\"topic-link">';
         int unuseStrIndex = titleStr.indexOf(unuseStr);
+        // 标题
         String title = titleStr.substring(unuseStrIndex+unuseStr.length);
         int replyIndex = titleStr.indexOf('#reply');
+        // 回复数
         String replyCount = titleStr.substring(replyIndex+6, unuseStrIndex);
         int tStrIndex = titleStr.indexOf('/t/');
         String topicsId = titleStr.substring(tStrIndex+3,replyIndex);
@@ -129,9 +133,10 @@ class IndexData {
           timeStr = '';
         }
 
-        return Topics(int.parse(topicsId), title, author, url, avatarURL, node, lastReply, int.parse(replyCount), timeStr: timeStr);
+        return Topic(int.parse(topicsId), title, author, url, avatarURL, node, lastReply, int.parse(replyCount), timeStr: timeStr);
       }).toList();
-      return IndexData(nodes, tabs, tabNodes, onlineCount, highestOnline, topicses, '0', '0', '0', '0', []);
+
+      return IndexData(nodes, tabs, tabNodes, onlineCount, highestOnline, topics, '0', '0', '0', '0', []);
   }
 
 }

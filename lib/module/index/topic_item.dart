@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './topics_item_view_model.dart';
+import './topic_item_view_model.dart';
 
 /// 使用TopicsItemViewModel来初始化并赋值
 class TopicsItem extends StatelessWidget {

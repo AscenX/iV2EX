@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import './index_view_model.dart';
-import './topics_item.dart';
+import './topic_item.dart';
 
 import '../detail/detail_route.dart';
 import '../../common/widget/base_route.dart';
@@ -32,7 +32,7 @@ class IndexView extends IndexViewModel with TickerProviderStateMixin {
       _index = _tabContrlller.index;
     });
 
-    _refreshSub = refreshTopcisSubject.listen((d){
+    _refreshSub = refreshTopicsSubject.listen((d){
       setState(() {
       });
     });

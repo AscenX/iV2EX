@@ -3,7 +3,7 @@ import './index_route.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../common/network/network_client.dart';
-import './topics_item_view_model.dart';
+import './topic_item_view_model.dart';
 import './index_data.dart';
 
 class IndexViewModel extends State<IndexRoute> {
@@ -15,7 +15,7 @@ class IndexViewModel extends State<IndexRoute> {
   
   List<String> nodeName;
 
-  PublishSubject refreshTopcisSubject;
+  PublishSubject refreshTopicsSubject;
   List<TopicsItemViewModel> lastestTopicses;
   List<TopicsItemViewModel> hotTopicses;
 
@@ -23,7 +23,7 @@ class IndexViewModel extends State<IndexRoute> {
   void initState() {
     super.initState();
 
-    refreshTopcisSubject = PublishSubject();
+    refreshTopicsSubject = PublishSubject();
 
     tabs = ['V2EX', '最新', '最热', '技术', '创意', '好玩', 'Apple', '酷工作', '交易', '城市', '问与答', '全部', 'R2'];
   }
@@ -36,29 +36,29 @@ class IndexViewModel extends State<IndexRoute> {
         tabData = indexData.tabs;
         tabs.addAll(indexData.tabs.map((d) => d.values.first));
 
-        topicsList[tab] = indexData.topicses.map((d)=> TopicsItemViewModel(d)).toList();
-        refreshTopcisSubject.add(tab);
-        refreshTopcisSubject.publish();
+        topicsList[tab] = indexData.topics.map((d)=> TopicsItemViewModel(d)).toList();
+        refreshTopicsSubject.add(tab);
+        refreshTopicsSubject.publish();
       });
     } else if (tab == 1) {
       Observable(NetWorkClient.shared.fetchLatestTopics()).listen((data){
         topicsList[tab] = data as List;
-        refreshTopcisSubject.add(tab);
-        refreshTopcisSubject.publish();
+        refreshTopicsSubject.add(tab);
+        refreshTopicsSubject.publish();
       });
     } else if (tab == 2) {
       Observable(NetWorkClient.shared.fetchHotTopics()).listen((data){
         topicsList[tab] = data as List;
-        refreshTopcisSubject.add(tab);
-        refreshTopcisSubject.publish();
+        refreshTopicsSubject.add(tab);
+        refreshTopicsSubject.publish();
       });
     } else if (tab >= 3) {
       Map tabMap = tabData[tab - 3];
       Observable(NetWorkClient.shared.fetchIndexHTML(tab: tabMap.keys.first)).listen((data){
         IndexData indexData = data;
-        topicsList[tab] = indexData.topicses.map((d)=> TopicsItemViewModel(d)).toList();
-        refreshTopcisSubject.add(tab);
-        refreshTopcisSubject.publish();
+        topicsList[tab] = indexData.topics.map((d)=> TopicsItemViewModel(d)).toList();
+        refreshTopicsSubject.add(tab);
+        refreshTopicsSubject.publish();
       });
     }
   }

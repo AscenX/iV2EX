@@ -1,33 +1,33 @@
-import './topics.dart';
+import './topic.dart';
 import 'package:intl/intl.dart';
 
 
 
 class TopicsItemViewModel {
 
-  int get topicsId => _topics.topicsId;
-  String get title => _topics.title;
+  int get topicsId => _topic.topicId;
+  String get title => _topic.title;
   String get time {
-    if (_topics.timeStr != null) {
-      return _topics.timeStr;
+    if (_topic.timeStr != null) {
+      return _topic.timeStr;
     }
-    return _topics.replyCount > 0 ? timestamp2Str(_topics.lastReplyTime) : timestamp2Str(_topics.time);
+    return _topic.replyCount > 0 ? timestamp2Str(_topic.lastReplyTime) : timestamp2Str(_topic.time);
   }
-  String get userName => _topics.userName;
-  String get url => _topics.url;
+  String get userName => _topic.userName;
+  String get url => _topic.url;
   String get avatarURL {
-    if (_topics.avatarURL.startsWith('http')) {
-      return _topics.avatarURL;
+    if (_topic.avatarURL.startsWith('http')) {
+      return _topic.avatarURL;
     }
-   return _topics.avatarURL.replaceRange(0, 2, 'https://');
+   return _topic.avatarURL.replaceRange(0, 2, 'https://');
   }
-  String get node => _topics.node;
-  String get lastReply => _topics.lastReply;
-  int get replyCount => _topics.replyCount;
+  String get node => _topic.node;
+  String get lastReply => _topic.lastReply;
+  int get replyCount => _topic.replyCount;
 
-  final Topics _topics;
+  final Topic _topic;
 
-  TopicsItemViewModel(this._topics);  
+  TopicsItemViewModel(this._topic);
 
   String timestamp2Str(int timestamp) {
     var now = DateTime.now();

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import './api.dart';
-import '../../module/index/topics.dart';
-import '../../module/index/topics_item_view_model.dart';
+import '../../module/index/topic.dart';
+import '../../module/index/topic_item_view_model.dart';
 import '../../module/index/index_data.dart';
 import '../../module/detail/topics_detail.dart';
 import '../../module/detail/reply.dart';
@@ -70,7 +70,7 @@ class NetWorkClient {
     yield* _get(path:kAPILatestTopcis).map((data){
       Response resp = data;
       return (resp.data as List).map((d){
-        return TopicsItemViewModel(Topics.fromJson(d));
+        return TopicsItemViewModel(Topic.fromJson(d));
       }).toList();
     });
   }
@@ -80,7 +80,7 @@ class NetWorkClient {
     yield* _get(path:kAPIHotTopcis).map((data){
       Response resp = data;
       return (resp.data as List).map((d){
-        return TopicsItemViewModel(Topics.fromJson(d));
+        return TopicsItemViewModel(Topic.fromJson(d));
       }).toList();
     });
   }

@@ -1,7 +1,7 @@
 
-class Topics {
+class Topic {
 
-  final int topicsId;
+  final int topicId;
   final String title;
   final int time;
   final String timeStr;
@@ -14,8 +14,8 @@ class Topics {
   final String lastReplyTimeStr;
   final int replyCount;
 
-  Topics(
-    this.topicsId,
+  Topic(
+    this.topicId,
     this.title, 
     this.userName, 
     this.url, 
@@ -29,8 +29,8 @@ class Topics {
     this.lastReplyTime}
     );
 
-  factory Topics.fromJson(Map<String, Object> json) {
-    return Topics(
+  factory Topic.fromJson(Map<String, Object> json) {
+    return Topic(
       json['id'] as int,
       json['title'] as String,
       (json['member'] as Map<String, Object>)['username'] as String,
