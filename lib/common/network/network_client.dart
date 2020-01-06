@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import './api.dart';
-import '../../module/index/topic.dart';
-import '../../module/index/topic_item_view_model.dart';
-import '../../module/index/index_data.dart';
+import '../../module/home/model/topic.dart';
+import '../../module/home/view_model/topic_item_view_model.dart';
+import '../../module/home/model/index_data.dart';
 import '../../module/detail/topics_detail.dart';
 import '../../module/detail/reply.dart';
 
@@ -66,27 +66,27 @@ class NetWorkClient {
 
   /// 获取最新帖子
   fetchLatestTopics() async* {
-    yield* _get(path:kAPILatestTopcis).map((data){
+    yield* _get(path:kAPILatestTopic).map((data){
       Response resp = data;
       return (resp.data as List).map((d){
-        return TopicsItemViewModel(Topic.fromJson(d));
+        return TopicItemViewModel(Topic.fromJson(d));
       }).toList();
     });
   }
 
   /// 获取热门帖子
   fetchHotTopics() async* {
-    yield* _get(path:kAPIHotTopcis).map((data){
+    yield* _get(path:kAPIHotTopic).map((data){
       Response resp = data;
       return (resp.data as List).map((d){
-        return TopicsItemViewModel(Topic.fromJson(d));
+        return TopicItemViewModel(Topic.fromJson(d));
       }).toList();
     });
   }
 
   /// 获取帖子id获取详情数据
   fetchTopicsDetail(int topicsId) async* {
-    yield* _get(path: kAPITopicsDetail, param: {'id' : topicsId.toString()}).map((data){
+    yield* _get(path: kAPITopicDetail, param: {'id' : topicsId.toString()}).map((data){
       Response resp = data;
       return TopicsDetail.fromJson((resp.data as List).first);
     });

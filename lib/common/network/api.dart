@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 /// 最新主题
-const String kAPILatestTopcis = '/api/topics/latest.json';
-
+const String kAPILatestTopic = '/api/topics/latest.json';
 /// 最热
-const String kAPIHotTopcis = '/api/topics/hot.json';
-
+const String kAPIHotTopic = '/api/topics/hot.json';
 /// 帖子详情
-const String kAPITopicsDetail = '/api/topics/show.json';
+const String kAPITopicDetail = '/api/topics/show.json';
 
 
 enum APIType {
-  banner,
-  home,
-  test,
+  iv2ex,
+  lastest,
+  hotest,
+  tabTopic,
+  topicDetail
 }
 
 class API {
@@ -25,8 +25,6 @@ class API {
   /// 服务器base url
   String get baseURL {
     switch(type) {
-      case APIType.home: return "https://httpbin.org/";
-      case APIType.banner: return "https://py.mchain.one/pocket/security";
       default: return "https://www.v2ex.com";
     }
   }
@@ -34,8 +32,9 @@ class API {
   /// 接口路径
   String get path {
     switch(type) {
-      case APIType.home: return "get";
-      case APIType.banner: return "/pocket/find_all_banner";
+      case APIType.hotest: return kAPIHotTopic;
+      case APIType.lastest: return kAPILatestTopic;
+      case APIType.topicDetail: return kAPITopicDetail;
       default: return "";
     }
   }
@@ -43,15 +42,13 @@ class API {
   /// 请求方法
   String get method {
     switch(type) {
-      case APIType.home: return "GET";
-      case APIType.banner: return "POST";
       default: return "GET";
     }
   }
 
   /// 请求头
   Map<String, String> get headers {
-    return  { "Content-type" : "application/json"};
+    return  { "Content-type" : "application/json;text/html"};
   }
 
 }

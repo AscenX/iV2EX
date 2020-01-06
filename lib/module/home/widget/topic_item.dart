@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import './topic_item_view_model.dart';
+import 'package:iv2ex/module/home/view_model/topic_item_view_model.dart';
 
 /// 使用TopicsItemViewModel来初始化并赋值
-class TopicsItem extends StatelessWidget {
+class TopicItem extends StatelessWidget {
 
-  final TopicsItemViewModel _vm;
+  final TopicItemViewModel _vm;
 
-  TopicsItem(this._vm);
+  TopicItem(this._vm);
 
   @override
   Widget build(BuildContext context) {

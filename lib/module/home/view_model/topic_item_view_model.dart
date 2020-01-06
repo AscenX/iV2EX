@@ -1,9 +1,9 @@
-import './topic.dart';
 import 'package:intl/intl.dart';
+import 'package:iv2ex/module/home/model/topic.dart';
 
 
 
-class TopicsItemViewModel {
+class TopicItemViewModel {
 
   int get topicsId => _topic.topicId;
   String get title => _topic.title;
@@ -27,7 +27,7 @@ class TopicsItemViewModel {
 
   final Topic _topic;
 
-  TopicsItemViewModel(this._topic);
+  TopicItemViewModel(this._topic);
 
   String timestamp2Str(int timestamp) {
     var now = DateTime.now();

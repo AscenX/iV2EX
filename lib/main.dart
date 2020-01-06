@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './module/index/tab_route.dart';
-
+//import 'package:iv2ex/module/base/tab_bar_route.dart';
+import 'package:iv2ex/module/home/route/tab_route.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {

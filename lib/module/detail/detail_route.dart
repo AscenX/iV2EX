@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import './detail_view.dart';
-import '../index/topic_item_view_model.dart';
+import '../home/view_model/topic_item_view_model.dart';
 
 class DetailRoute extends StatefulWidget {
 
-  final TopicsItemViewModel topicsVm;
+  final TopicItemViewModel topicsVm;
 
   DetailRoute({this.topicsVm});
   
