@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iv2ex/common/extension/image_ext.dart';
 import './index_view_model.dart';
 import './topic_item.dart';
 
@@ -124,7 +125,7 @@ class IndexView extends IndexViewModel with TickerProviderStateMixin {
                 child: Container(
                   width: 44.0,
                   height: 44.0,
-                  child: Image.asset('images/stan.png'),
+                  child: ImageAssets.stan(),
                 ),
                 borderRadius: BorderRadius.circular(22.0),
             ),

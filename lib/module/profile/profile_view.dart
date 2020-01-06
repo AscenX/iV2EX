@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iv2ex/common/extension/image_ext.dart';
 import './profile_view_model.dart';
 import 'dart:math' as math;
 
@@ -92,7 +93,7 @@ class ProfileView extends ProfileViewModel {
               // padding: EdgeInsets.only(left: 4.0, right: 8.0, top: 6.0, bottom: 6.0),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(4.0),
-                  child:Image.asset('images/stan.png'),
+                  child:ImageAssets.stan(),
               ),
             )
     );

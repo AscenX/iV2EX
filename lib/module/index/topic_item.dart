@@ -33,7 +33,7 @@ class TopicsItem extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.only(left: 5.0, right: 5.0),
               color: Color(0xfff5f5f5),
-              child: Text('${_vm.node}', style: TextStyle(color: Color(0xffa6a6a6))),
+              child: Text('${_vm.node}', style: TextStyle(color: Color(0xffa6a6a6), fontSize: 12.0)),
               ),
           );
 
@@ -44,22 +44,25 @@ class TopicsItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(_vm.title,
-                    maxLines: null,
-                    style: TextStyle(
-                      fontSize: 17.0, 
-                      color: Color(0xff333333), 
-                      // fontWeight: FontWeight.w500
+                  ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: 30.0),
+                    child: Text(_vm.title,
+                      maxLines: null,
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Color(0xff333333),
+                        // fontWeight: FontWeight.w500
                       ),
+                    ),
                   ),
                   Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: <Widget>[
                       nodeWidget,
                       Container(width: 4.0),
-                      Text('${_vm.userName} ', style: TextStyle(color: Color(0xff778087))),
-                      Text('${_vm.time} ', style: TextStyle(color: Color(0xffd0d0d0)),),
-                      _vm.lastReply.length > 0 ? Text(_vm.lastReply, style: TextStyle(color: Color(0xff778087))) : Container()
+                      Text('${_vm.userName} ', style: TextStyle(color: Color(0xff778087), fontSize: 12.0)),
+                      Text('${_vm.time} ', style: TextStyle(color: Color(0xffd0d0d0), fontSize: 12.0)),
+                      _vm.lastReply.length > 0 ? Text(_vm.lastReply, style: TextStyle(color: Color(0xff778087), fontSize: 12.0)) : Container()
                     ],
                   )
                 ],
@@ -74,9 +77,9 @@ class TopicsItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(12.0),
             child: Container(
               height: 18.0,
-              padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 1.0),
+              padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 2.0),
               color: Color(0xffaab0c5),
-              child: Text(_vm.replyCount.toString(), style: TextStyle(color: Colors.white, fontSize: 14.0)),
+              child: Text(_vm.replyCount.toString(), style: TextStyle(color: Colors.white, fontSize: 10.0)),
               ),
           ) : null,
     );

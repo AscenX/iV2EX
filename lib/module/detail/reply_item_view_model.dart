@@ -21,7 +21,7 @@ class ReplyItemViewModel {
       String userStr = m.group(0);
       String userLink = userStr.substring(10, userStr.length - 2);
       String user = userLink.split("/").last;
-      return '[@'+user+']('+ kBaseURL + userLink+')';
+      return '[@'+user+']('+ "https://www.v2ex.com" + userLink+')';
     }).toList();
 
     String content = _reply.content;
