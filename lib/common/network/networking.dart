@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:iv2ex/common/network/api.dart';
+import 'package:rxdart/rxdart.dart';
 
 const requestTimeout = 1000 * 10;
 
 class Networking {
 
-  static Future request({@required APIType type, Map<String, dynamic> params}) async {
+  static Observable request({@required APIType type, Map<String, dynamic> params}) {
     API api = API(type: type);
     BaseOptions opts = BaseOptions(
         baseUrl: api.baseURL,
@@ -22,33 +23,15 @@ class Networking {
         method: api.method
       );
 
-    try {
-      print("HTTP ${api.method} Request: ${api.baseURL}${api.path}, params: $params");
-      Dio dio = Dio(opts);
-      try {
-      Future<ByteData> data = rootBundle.load("resource/mchain.pem");
-      data.then((data) {
-        print("wtf: $data ${data.lengthInBytes}");
-
-          (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
-            SecurityContext sc = SecurityContext();
-            sc.useCertificateChainBytes(data.buffer.asInt8List());
-            return HttpClient(context: sc);
-          };
-      });
-      } on Exception catch (e) {
-        print("eeeeee:$e");
+    Dio dio = Dio(opts);
+    print("path: ${api.path}, params:$params");
+    final request = dio.request(api.path, queryParameters: params).then( (resp){
+      print("resp: ${resp.statusCode}, msg:${resp.statusMessage}, data:${resp.data}");
+      if (resp.statusCode == 200) {
+        return resp.data;
       }
-      return await dio.request(api.path, queryParameters: params).then( (resp){
-        print("resp: ${resp.statusCode}, msg:${resp.statusMessage}, data:${resp.data}");
-        if (resp.statusCode == 200) {
-          return resp.data;
-        }
-      });
-    } catch (e) {
-      // 异常处理
-      print("exception:${e.toString()}");
-    }
+    });
+    return Observable.fromFuture(request);
 
   }
 

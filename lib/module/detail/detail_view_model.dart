@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:intl/intl.dart';
 import './detail_route.dart';
-import '../../common/network/network_client.dart';
 import './topics_detail.dart';
 import './reply_item_view_model.dart';
 
@@ -51,31 +50,31 @@ abstract class DetailViewModel extends State<DetailRoute> {
   final comments = List();
 
   fetchTopicsDetailHtml(){
-    Observable(NetWorkClient.shared.fetchTopicsDetailHTML(widget.topicsVm.topicsId)).listen((d){
-      replies = (d as List).map((d) => ReplyItemViewModel(d)).toList();
-
-      _topicsDetailSubject.add(1);
-      _topicsDetailSubject.publish();
-    });
+//    Observable(NetWorkClient.shared.fetchTopicsDetailHTML(widget.topicsVm.topicsId)).listen((d){
+//      replies = (d as List).map((d) => ReplyItemViewModel(d)).toList();
+//
+//      _topicsDetailSubject.add(1);
+//      _topicsDetailSubject.publish();
+//    });
   }
 
   fetchTopicsDetailInfo(){
-    Observable(NetWorkClient.shared.fetchTopicsDetail(widget.topicsVm.topicsId)).listen((d){
-      TopicsDetail detail = d;
-      title = detail.title;
-      time = timestamp2Str(detail.created);
-      userName = detail.userName;
-      url = detail.url;
-      avatarURL = detail.avatarURL.replaceRange(0, 2, 'https://');
-      node = detail.nodeTitle;
-      lastReply = detail.lastReply;
-      replyCount = detail.replyCount;
-      // content = '<html><head><style>ul {margin: 45px 0 15px 20px;padding: 0;}</style></head><body><div class=\'cell\'>${detail.content}</div></body></html>';
-      content = detail.content;
-
-      _topicsDetailSubject.add(1);
-      _topicsDetailSubject.publish();
-    });
+//    Observable(NetWorkClient.shared.fetchTopicsDetail(widget.topicsVm.topicsId)).listen((d){
+//      TopicsDetail detail = d;
+//      title = detail.title;
+//      time = timestamp2Str(detail.created);
+//      userName = detail.userName;
+//      url = detail.url;
+//      avatarURL = detail.avatarURL.replaceRange(0, 2, 'https://');
+//      node = detail.nodeTitle;
+//      lastReply = detail.lastReply;
+//      replyCount = detail.replyCount;
+//      // content = '<html><head><style>ul {margin: 45px 0 15px 20px;padding: 0;}</style></head><body><div class=\'cell\'>${detail.content}</div></body></html>';
+//      content = detail.content;
+//
+//      _topicsDetailSubject.add(1);
+//      _topicsDetailSubject.publish();
+//    });
   }
 
   String timestamp2Str(int timestamp) {

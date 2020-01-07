@@ -14,8 +14,7 @@ class _HomeRouteState extends State<HomeRoute> with TickerProviderStateMixin {
 
   HomeViewModel _viewModel;
 
-  TabController _tabContrlller;
-  var _refreshSub;
+  TabController _tabController;
 
   int _preIndex;
   int _index;
@@ -29,30 +28,24 @@ class _HomeRouteState extends State<HomeRoute> with TickerProviderStateMixin {
 
     _viewModel = HomeViewModel();
 
-    _tabContrlller = TabController(
+    _tabController = TabController(
       vsync: this,
       length: _viewModel.tabs.length,
     )..addListener((){
-      if (_preIndex == _tabContrlller.previousIndex &&
-          _index == _tabContrlller.index) return;
-      _viewModel.fetchTopcis(_tabContrlller.index);
-      _preIndex = _tabContrlller.previousIndex;
-      _index = _tabContrlller.index;
+      if (_preIndex == _tabController.previousIndex &&
+          _index == _tabController.index) return;
+      _viewModel.refreshCmd.execute(_tabController.index);
+      _preIndex = _tabController.previousIndex;
+      _index = _tabController.index;
     });
 
-    _refreshSub = _viewModel.refreshTopicsSubject.listen((d){
-      setState(() {
-      });
-    });
-
-    _viewModel.fetchTopcis(0);
+    _viewModel.refreshCmd.execute(0);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _tabContrlller.dispose();
-    _refreshSub.cancel();
+    _tabController.dispose();
   }
 
   // 创建Tab
@@ -61,46 +54,51 @@ class _HomeRouteState extends State<HomeRoute> with TickerProviderStateMixin {
   }
 
   // 创建列表
-  RefreshIndicator buildTabbarView(List dataSource, Function() callBack) {
+  RefreshIndicator buildTabView(List dataSource, Function() callBack) {
     return RefreshIndicator(
-      onRefresh: ()=>Future.sync(callBack),
+      onRefresh: ()=> Future.sync(callBack),
       backgroundColor: Colors.white,
       color: Colors.grey[300],
-      child: ListView.separated(
-        itemCount: dataSource != null ? dataSource.length : 0,
-        itemBuilder: ((ctx,index){
-          return GestureDetector(
-              child: TopicItem(dataSource[index]),
-              onTap: (){
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return DetailRoute(topicsVm:dataSource[index]);
-                    }
-                ));
-              }
+      child: StreamBuilder(
+        stream: _viewModel.refreshCmd,
+        builder: (ctx, data) {
+          return ListView.separated(
+            itemCount: dataSource != null ? dataSource.length : 0,
+            itemBuilder: ((ctx,index){
+              return GestureDetector(
+                  child: TopicItem(dataSource[index]),
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return DetailRoute(topicsVm:dataSource[index]);
+                        }
+                    ));
+                  }
+              );
+            }),
+            separatorBuilder: ((ctx,index){
+              return Divider(color: Colors.grey, height: 1.0, indent: 8.0,);
+            }),
+            controller: _scrollController,
           );
-        }),
-        separatorBuilder: ((ctx,index){
-          return Divider(color: Colors.grey, height: 1.0, indent: 8.0,);
-        }),
-        controller: _scrollController,
-      ),
+        },
+      )
     );
   }
 
-  List<Widget> setupTabbarView(){
-    List<Widget> tabbarViews = List();
+  List<Widget> setupTabView(){
+    List<Widget> tabViews = List();
     for (int i = 0; i < _viewModel.tabs.length; ++i) {
-      List topicses = i < _viewModel.topicsList.length  ? _viewModel.topicsList[i]: null;
-      Widget tabbarView = Container();
-      if (topicses.length > 0) {
-        tabbarView = buildTabbarView(_viewModel.topicsList[i], (){
-          _viewModel.fetchTopcis(i);
+      List topics = i < _viewModel.topicsList.length  ? _viewModel.topicsList[i]: null;
+      Widget tabView = Container();
+      if (topics.length > 0) {
+        tabView = buildTabView(_viewModel.topicsList[i], (){
+          _viewModel.refreshCmd.execute(i);
         });
       }
-      tabbarViews.add(tabbarView);
+      tabViews.add(tabView);
     }
-    return tabbarViews;
+    return tabViews;
   }
 
   @override
@@ -116,15 +114,15 @@ class _HomeRouteState extends State<HomeRoute> with TickerProviderStateMixin {
           child: TabBar(
               labelColor: Colors.white,
               indicatorColor: Colors.white,
-              controller: _tabContrlller,
+              controller: _tabController,
               isScrollable: true,
               tabs: buildTabs(_viewModel.tabs)
           ),
         ),
       ),
       body: TabBarView(
-          controller: _tabContrlller,
-          children: setupTabbarView()
+          controller: _tabController,
+          children: setupTabView()
       ),
       floatingActionButton: Hero(
         child: GestureDetector(

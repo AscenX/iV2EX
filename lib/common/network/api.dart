@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
+const String kBaseURL = "https://www.v2ex.com";
 /// 最新主题
-const String kAPILatestTopic = '/api/topics/latest.json';
+const String kLatestTopic = '/api/topics/latest.json';
 /// 最热
-const String kAPIHotTopic = '/api/topics/hot.json';
+const String kHotTopic = '/api/topics/hot.json';
 /// 帖子详情
-const String kAPITopicDetail = '/api/topics/show.json';
+const String kTopicDetail = '/api/topics/show.json';
 
 
 enum APIType {
-  iv2ex,
-  lastest,
-  hotest,
+  v2ex,
+  latest,
+  hottest,
   tabTopic,
   topicDetail
 }
@@ -25,17 +26,17 @@ class API {
   /// 服务器base url
   String get baseURL {
     switch(type) {
-      default: return "https://www.v2ex.com";
+      default: return kBaseURL;
     }
   }
 
   /// 接口路径
   String get path {
     switch(type) {
-      case APIType.hotest: return kAPIHotTopic;
-      case APIType.lastest: return kAPILatestTopic;
-      case APIType.topicDetail: return kAPITopicDetail;
-      default: return "";
+      case APIType.hottest: return kHotTopic;
+      case APIType.latest: return kLatestTopic;
+      case APIType.topicDetail: return kTopicDetail;
+      default: return "/";
     }
   }
 
