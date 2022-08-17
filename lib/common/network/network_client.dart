@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import './api.dart';
 // import '../../module/index/topics.dart';
 // import '../../module/index/topics_item_view_model.dart';
-// import '../../module/index/index_data.dart';
+import '../../module/index/index_data.dart';
 // import '../../module/detail/topics_detail.dart';
 // import '../../module/detail/reply.dart';
 
@@ -55,13 +55,13 @@ class NetWorkClient {
   }
 
   /// 获取首页html数据
-  // fetchIndexHTML({String tab}) async* {
-  //   Map<String, Object> param = tab != null ? {'tab' : tab} : null;
-  //   yield* _get(path:'', param: param).map((data){
-  //     String htmlStr = (data as Response).data.toString();
-  //     return IndexData.fromHTML(htmlStr);
-  //   });
-  // }
+  fetchIndexHTML({String? tab}) async* {
+    Map<String, Object>? param = tab != null ? {'tab' : tab} : null;
+    yield* _get(path:'', param: param).map((data){
+      String htmlStr = (data as Response).data.toString();
+      return IndexData.fromHTML(htmlStr);
+    });
+  }
 
   // /// 获取最新帖子
   // fetchLatestTopics() async* {
