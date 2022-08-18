@@ -3,15 +3,15 @@ class Topics {
 
   final int topicsId;
   final String title;
-  final int time;
-  final String timeStr;
+  final int? time;
+  final String? timeStr;
   final String userName;
   final String url;
   final String avatarURL;
   final String node;
   final String lastReply;
-  final int lastReplyTime;
-  final String lastReplyTimeStr;
+  final int? lastReplyTime;
+  final String? lastReplyTimeStr;
   final int replyCount;
 
   Topics(
@@ -30,6 +30,7 @@ class Topics {
     );
 
   factory Topics.fromJson(Map<String, Object> json) {
+    print(json);
     return Topics(
       json['id'] as int,
       json['title'] as String,
@@ -39,8 +40,8 @@ class Topics {
       (json['node'] as Map<String, Object>)['title'] as String,
       json['last_reply_by'] as String,
       json['replies'] as int,
-      time: json['created'] as int,
-      lastReplyTime:json['last_touched'] as int,
+      time: json['created'] as int?,
+      lastReplyTime:json['last_touched'] as int?,
     );
   }
 }

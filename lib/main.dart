@@ -12,11 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'iV2ex',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TabRoute()
+      home: const TabRoute()
     );
   }
 }

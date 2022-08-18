@@ -31,6 +31,7 @@ class NetWorkClient {
   Stream _get({required String path, Map<String, dynamic>? param}) async* {
     try {
       print('HTTP get,path:$kBaseURL$path param:$param');
+      print('params is: ${param != null}');
       if (param != null) {
         yield await _dio!.get(path, queryParameters: param);
       } else {
@@ -57,9 +58,13 @@ class NetWorkClient {
   /// 获取首页html数据
   fetchIndexHTML({String? tab}) async* {
     Map<String, Object>? param = tab != null ? {'tab' : tab} : null;
-    yield* _get(path:'', param: param).map((data){
-      String htmlStr = (data as Response).data.toString();
-      return IndexData.fromHTML(htmlStr);
+    yield* _get(path:'', param: param).map((resp){
+      print('fetch index:$resp');
+      if (resp is Response) {
+        String htmlStr = resp.data.toString();
+        return IndexData.fromHTML(htmlStr);
+      }
+      return IndexData.fromHTML('');
     });
   }
 

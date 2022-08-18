@@ -5,5 +5,7 @@ class IndexRoute extends StatefulWidget {
   const IndexRoute({Key? key}) : super(key: key);
 
   @override
-  IndexView createState() => IndexView();
+  State<StatefulWidget> createState() {
+    return IndexView();
+  }
 }

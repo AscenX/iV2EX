@@ -18,12 +18,13 @@ class IndexData {
   this.nodeCollectionCount, this.topicsCollection, this.specialFollow, this.collectedNodes);
 
   factory IndexData.fromHTML(String html) {
+    print('111111111 index html:$html');
     // 解析tab
       RegExp reg = RegExp(r'<a href="\/\?tab.*</a>');
       String tabStr = reg.stringMatch(html) ?? '';
       RegExp tabReg = RegExp(r'href=".+?(?:<)');
       var hot;
-      List<Map<String, String>> tabs = tabReg.allMatches(tabStr!).map((m){
+      List<Map<String, String>> tabs = tabReg.allMatches(tabStr).map((m){
         String tabStr = m.group(0) ?? '';
         String unuseStr = 'class';
         int unuseStrIndex = tabStr.indexOf(unuseStr);
@@ -83,7 +84,7 @@ class IndexData {
       List<Topics> topicses = topicsReg.allMatches(html).map((m){
         String topicsStr = m.group(0) ?? '';
         String avatarURL = RegExp(r'(src="//).*?"').stringMatch(topicsStr) ?? '';
-        avatarURL = 'https://'+ avatarURL.substring(7,avatarURL.length - 1);
+        avatarURL = 'https://${avatarURL.substring(7,avatarURL.length - 1)}';
 
         String titleStr = RegExp(r'href=".*</a></span>').stringMatch(topicsStr) ?? '';
         titleStr = titleStr.substring(0,titleStr.length - 11);
@@ -94,7 +95,7 @@ class IndexData {
         String replyCount = titleStr.substring(replyIndex+6, unuseStrIndex);
         int tStrIndex = titleStr.indexOf('/t/');
         String topicsId = titleStr.substring(tStrIndex+3,replyIndex);
-        String url = 'https://www.v2ex.com/t/'+topicsId;
+        String url = 'https://www.v2ex.com/t/$topicsId';
 
         // 节点
         String nodeStr = RegExp(r'class="node".+?</a>').stringMatch(topicsStr) ?? '';
@@ -110,11 +111,7 @@ class IndexData {
 
         // 最后回复
         String lastReplyStr = RegExp(r'最后回复来自 <strong><a href="/member.+?</a>').stringMatch(topicsStr) ?? '';
-        if (lastReplyStr != null) {
-          lastReplyStr = lastReplyStr.substring(0,lastReplyStr.length - 4);
-        } else {
-          lastReplyStr = '';
-        }
+        lastReplyStr = lastReplyStr.substring(0,lastReplyStr.length - 4);
         String lastReply = '';
         if (lastReplyStr.length > 2) {
           int lastReplyIndex = lastReplyStr.indexOf('">');
@@ -123,11 +120,9 @@ class IndexData {
 
         // 时间
         String timeStr = RegExp(r'</strong>.+最后').stringMatch(topicsStr) ?? '';
-        if (timeStr != null) {
-          timeStr = timeStr.substring(24, timeStr.length - 16);
-        } else {
-          timeStr = '';
-        }
+        timeStr = timeStr.substring(24, timeStr.length - 16);
+
+        print('11111111111$tabNodesStr');
 
         return Topics(int.parse(topicsId), title, author, url, avatarURL, node, lastReply, int.parse(replyCount), timeStr: timeStr);
       }).toList();
