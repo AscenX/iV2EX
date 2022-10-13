@@ -11,15 +11,17 @@ class TopicsItemViewModel {
     if (_topics.timeStr != null) {
       return _topics.timeStr ?? '';
     }
-    return _topics.replyCount > 0 ? timestamp2Str(_topics.lastReplyTime) : timestamp2Str(_topics.time);
+    // return _topics.replyCount > 0 ? timestamp2Str(_topics.lastReplyTime) : timestamp2Str(_topics.time);
+    return '';
   }
   String get userName => _topics.userName;
   String get url => _topics.url;
   String get avatarURL {
-    if (_topics.avatarURL.startsWith('http')) {
-      return _topics.avatarURL;
-    }
-   return _topics.avatarURL.replaceRange(0, 2, 'https://');
+    // if (_topics.avatarURL.startsWith('http')) {
+    //   return _topics.avatarURL;
+    // }
+   // return _topics.avatarURL.replaceRange(0, 2, 'https://');
+    return _topics.avatarURL;
   }
   String get node => _topics.node;
   String get lastReply => _topics.lastReply;

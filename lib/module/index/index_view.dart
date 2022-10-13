@@ -97,9 +97,10 @@ class IndexView extends IndexViewModel with TickerProviderStateMixin {
     List<Widget> tabbarViews = <Widget>[];
     for (int i = 0; i < tabs.length; ++i) {
       List topicses = i < topicsList.length  ? topicsList[i]: [];
+
       Widget tabbarView = Container();
       if (topicses.isNotEmpty) {
-         tabbarView = buildTabbarView(topicsList[i], (){
+         tabbarView = buildTabbarView(topicses, (){
            fetchTopcis(i);
            });
       }

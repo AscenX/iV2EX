@@ -18,8 +18,8 @@ class NetWorkClient {
     if (_dio == null) {
         BaseOptions options = BaseOptions();
         options.baseUrl = kBaseURL;
-        options.receiveTimeout = 1000 * 10; //10秒
-        options.connectTimeout = 1000 * 10;
+        options.receiveTimeout = 1000 * 20; //20秒
+        options.connectTimeout = 1000 * 20;
         _dio = Dio(options);
     }
   }
@@ -59,7 +59,6 @@ class NetWorkClient {
   fetchIndexHTML({String? tab}) async* {
     Map<String, Object>? param = tab != null ? {'tab' : tab} : null;
     yield* _get(path:'', param: param).map((resp){
-      print('fetch index:$resp');
       if (resp is Response) {
         String htmlStr = resp.data.toString();
         return IndexData.fromHTML(htmlStr);

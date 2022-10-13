@@ -18,7 +18,6 @@ class IndexData {
   this.nodeCollectionCount, this.topicsCollection, this.specialFollow, this.collectedNodes);
 
   factory IndexData.fromHTML(String html) {
-    print('111111111 index html:$html');
     // 解析tab
       RegExp reg = RegExp(r'<a href="\/\?tab.*</a>');
       String tabStr = reg.stringMatch(html) ?? '';
@@ -80,11 +79,11 @@ class IndexData {
       String highestOnline = highestOnlineStr.substring(5, highestOnlineStr.length - 7);
 
       // 匹配帖子
-      RegExp topicsReg = RegExp(r'^<div class="cell item"[\s\S.]+?strong></span>$', multiLine: true);
+      RegExp topicsReg = RegExp(r'^<div class="cell item"[\s\S.]+?strong><\/span>$', multiLine: true);
       List<Topics> topicses = topicsReg.allMatches(html).map((m){
         String topicsStr = m.group(0) ?? '';
-        String avatarURL = RegExp(r'(src="//).*?"').stringMatch(topicsStr) ?? '';
-        avatarURL = 'https://${avatarURL.substring(7,avatarURL.length - 1)}';
+        String avatarURL = RegExp(r'(src=").*?"').stringMatch(topicsStr) ?? '';
+        avatarURL = 'https://${avatarURL.substring(5,avatarURL.length - 1)}';
 
         String titleStr = RegExp(r'href=".*</a></span>').stringMatch(topicsStr) ?? '';
         titleStr = titleStr.substring(0,titleStr.length - 11);
@@ -92,7 +91,7 @@ class IndexData {
         int unuseStrIndex = titleStr.indexOf(unuseStr);
         String title = titleStr.substring(unuseStrIndex+unuseStr.length);
         int replyIndex = titleStr.indexOf('#reply');
-        String replyCount = titleStr.substring(replyIndex+6, unuseStrIndex);
+        String replyCount = titleStr.substring(replyIndex+6, unuseStrIndex-19);
         int tStrIndex = titleStr.indexOf('/t/');
         String topicsId = titleStr.substring(tStrIndex+3,replyIndex);
         String url = 'https://www.v2ex.com/t/$topicsId';
@@ -122,9 +121,8 @@ class IndexData {
         String timeStr = RegExp(r'</strong>.+最后').stringMatch(topicsStr) ?? '';
         timeStr = timeStr.substring(24, timeStr.length - 16);
 
-        print('11111111111$tabNodesStr');
 
-        return Topics(int.parse(topicsId), title, author, url, avatarURL, node, lastReply, int.parse(replyCount), timeStr: timeStr);
+        return Topics(int.parse(topicsId), title, author, url, avatarURL, node, lastReply, 999, timeStr: timeStr);
       }).toList();
       return IndexData(nodes, tabs, tabNodes, onlineCount, highestOnline, topicses, '0', '0', '0', '0', []);
   }

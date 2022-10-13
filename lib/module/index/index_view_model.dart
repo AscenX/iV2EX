@@ -43,7 +43,10 @@ class IndexViewModel extends State<IndexRoute> {
         tabs.addAll(indexData.tabs.map((d) => d.values.first));
 
         // topicsList[tab] = indexData.topicses.map((d)=> TopicsItemViewModel(d)).toList();
-        topicsList[tab] = indexData.topicses.map((d)=> TopicsItemViewModel(d)).toList();
+        topicsList[tab] = indexData.topicses.map((d) {
+          TopicsItemViewModel vm = TopicsItemViewModel(d);
+          return vm;
+        }).toList();
         refreshTopcisSubject.add(tab);
         refreshTopcisSubject.publish();
       });
